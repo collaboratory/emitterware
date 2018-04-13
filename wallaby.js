@@ -6,7 +6,7 @@ module.exports = wallaby => {
   return {
     files: [
       {
-        pattern: "packages/**",
+        pattern: "packages/**/src/**",
         load: true
       },
       {
@@ -18,10 +18,6 @@ module.exports = wallaby => {
         ignore: true
       },
       {
-        pattern: "packages/*/dist/**",
-        ignore: true
-      },
-      {
         pattern: "packages/**/*.test.js",
         ignore: true
       }
@@ -29,10 +25,6 @@ module.exports = wallaby => {
     tests: [
       {
         pattern: "packages/**/*.test.js"
-      },
-      {
-        pattern: "packages/**/dist/*.test.js",
-        ignore: true
       },
       {
         pattern: "packages/**/node_modules/**",

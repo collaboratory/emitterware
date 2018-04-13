@@ -12,8 +12,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "mkdir -p dist/ && babel --compact --minified -o dist/main.js src/",
-    "watch": "mkdir -p dist/ && babel --watch --compact --minified -o dist/main.js src/",
+    "build": "mkdir -p dist/ && babel --ignore '**/*.test.js,**/__tests__' --compact --minified -o dist/main.js src/",
+    "watch": "mkdir -p dist/ && babel --ignore '**/*.test.js,**/__tests__' --watch --compact --minified -o dist/main.js src/",
     "benchmark": "node benchmark",
     "benchmark-watch": "npm run benchmark-watch-emitters & npm run benchmark-watch-middleware",
     "benchmark-watch-emitters": "nodemon --watch 'dist/Emitter.js' --watch 'dist/Emitterware.js' --watch 'benchmark/emitters.js' --exec 'node benchmark/emitters'",

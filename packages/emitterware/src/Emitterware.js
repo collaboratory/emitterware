@@ -1,5 +1,5 @@
 // Emitterware
-import { Middleware } from "./Middleware";
+import { Middleware } from "@emitterware/middleware";
 
 export class Emitterware {
   constructor() {
