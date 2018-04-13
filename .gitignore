@@ -1,0 +1,7 @@
+.idea/
+.vscode/
+.cache/
+dist/
+node_modules/
+yarn-error.log
+lerna-debug.log

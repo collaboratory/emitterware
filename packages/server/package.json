@@ -1,0 +1,29 @@
+{
+  "name": "@emitterware/server",
+  "description": "The core of the emitterware server application",
+  "authors": "Andrew Ewing <drew@collaboratory.io>",
+  "version": "0.0.0",
+  "main": "dist/main.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "mkdir -p dist/ && babel --compact --minified -o dist/main.js src/",
+    "watch": "mkdir -p dist/ && babel --watch --compact --minified -o dist/main.js src/",
+    "benchmark": "node benchmark",
+    "benchmark-watch": "npm run benchmark-watch-emitters & npm run benchmark-watch-middleware",
+    "benchmark-watch-emitters": "nodemon --watch 'dist/Emitter.js' --watch 'dist/Emitterware.js' --watch 'benchmark/emitters.js' --exec 'node benchmark/emitters'",
+    "benchmark-watch-middleware": "nodemon --watch 'dist/Middleware.js' --watch 'benchmark/middleware.js' --exec 'node benchmark/middleware'",
+    "lint": "eslint src/",
+    "lint-fix": "eslint src/ --fix",
+    "clean": "rm -rf dist/",
+    "build-clean": "npm run lint-fix && npm run clean && npm run build"
+  },
+  "dependencies": {
+    "rhetoric": "^0.1.4"
+  }
+}

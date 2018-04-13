@@ -1,0 +1,22 @@
+{
+  "name": "@emitterware/emitterware",
+  "description": "Core emitterware stack manager of the emitterware ecosystem",
+  "authors": "Andrew Ewing <contact@aewing.io>",
+  "version": "0.0.0",
+  "main": "dist/main.js",
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "mkdir -p dist/ && babel --compact --minified -o dist/main.js src/",
+    "watch": "mkdir -p dist/ && babel --watch --compact --minified -o dist/main.js src/",
+    "lint": "eslint src/",
+    "lint-fix": "eslint src/ --fix",
+    "clean": "rm -rf dist/",
+    "build-clean": "npm run lint-fix && npm run clean && npm run build"
+  }
+}

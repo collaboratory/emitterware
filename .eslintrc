@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "standard",
+    "plugin:flowtype/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/standard"
+  ],
+  "plugins": ["jest", "flowtype", "prettier", "standard"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "jest/globals": true
+  },
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}
