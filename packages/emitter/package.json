@@ -12,12 +12,11 @@
     "access": "public"
   },
   "scripts": {
-    "build": "mkdir -p dist/ && babel --ignore '**/*.test.js,**/__tests__' --compact --minified -o dist/main.js src/",
-    "watch": "mkdir -p dist/ && babel --ignore '**/*.test.js,**/__tests__' --watch --compact --minified -o dist/main.js src/",
+    "build": "babel --ignore '**/*.test.js,**/__tests__' --compact --minified -d dist/ src/",
+    "watch": "babel --ignore '**/*.test.js,**/__tests__' --watch --compact --minified -d dist/ src/",
     "lint": "eslint src/",
     "lint-fix": "eslint src/ --fix",
-    "clean": "rm -rf dist/",
+    "clean": "rm -rf dist/*.js",
     "build-clean": "npm run lint-fix && npm run clean && npm run build"
-  },
-  "dependencies": {}
+  }
 }
