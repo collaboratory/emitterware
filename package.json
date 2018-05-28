@@ -1,19 +1,22 @@
 {
+	"private": true,
+	"scripts": {
+		"bootstrap": "lerna run bootstrap --parallel",
+		"build": "lerna run build --parallel",
+		"watch": "lerna run watch --parallel"
+	},
 	"devDependencies": {
-		"babel-runtime": "^6.26.0",
+		"babel-core": "^6.26.0",
+		"babel-plugin-transform-class-properties": "^6.24.1",
+		"babel-plugin-transform-object-rest-spread": "^6.26.0",
+		"babel-preset-env": "^1.6.1",
 		"jest-cli": "^22.4.3",
 		"lerna": "^2.10.1"
 	},
 	"dependencies": {
-		"@babel/cli": "^7.0.0-beta.44",
-		"@babel/core": "^7.0.0-beta.44",
-		"@babel/plugin-proposal-class-properties": "^7.0.0-beta.44",
-		"@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
-		"@babel/preset-env": "^7.0.0-beta.44",
-		"babel-core": "7.0.0-bridge.0",
+		"babel-cli": "^6.26.0",
 		"babel-eslint": "^8.2.2",
 		"babel-jest": "^22.4.3",
-		"babel-plugin-transform-optional-chaining": "^7.0.0-beta.3",
 		"eslint": "^4.19.1",
 		"eslint-config-prettier": "^2.9.0",
 		"eslint-config-standard": "^11.0.0",

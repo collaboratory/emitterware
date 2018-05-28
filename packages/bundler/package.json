@@ -1,6 +1,6 @@
 {
-  "name": "@emitterware/middleware",
-  "description": "Core middleware composer of the emitterware ecosystem",
+  "name": "@emitterware/bundler",
+  "description": "Frontend asset bundler the emitterware ecosystem",
   "authors": "Andrew Ewing <contact@aewing.io>",
   "version": "0.0.0",
   "main": "dist/main.js",
@@ -20,6 +20,7 @@
     "build-clean": "npm run lint-fix && npm run clean && npm run build"
   },
   "dependencies": {
-    "@emitterware/safe-callback": "^0.0.0"
+    "parcel-bundler": "^1.7.1",
+    "@emitterware/http": "^0.0.0"
   }
 }
