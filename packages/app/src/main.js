@@ -1,5 +1,5 @@
-import { Emitterware } from "rhetoric";
-export class EmitterwareServer {
+import { Emitterware } from "@emitterware/emitterware";
+export class EmitterwareApp {
   constructor(options = {}) {
     this.options = options;
     this.providers = new Map();
@@ -15,7 +15,7 @@ export class EmitterwareServer {
 
     this.providers.set(
       name,
-      provider(async request => this.request(request, name))
+      provider(request => Promise.resolve(this.request(request, name)))
     );
   }
 
@@ -33,9 +33,15 @@ export class EmitterwareServer {
   }
   remove = this.removeMiddleware;
 
-  async request(ctx, provider) {
-    await this.stack.emit(provider, ctx);
-    return ctx;
+  request(ctx, provider) {
+    return new Promise((resolve, reject) => {
+      try {
+        Promise.resolve(this.stack.emit(provider, ctx));
+        resolve(ctx);
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 }
-export default EmitterwareServer;
+export default EmitterwareApp;

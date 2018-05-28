@@ -1,5 +1,5 @@
 // Middleware
-import { forAny } from "./util";
+import { forAny } from "@emitterware/safe-callback";
 export class Middleware {
   constructor() {
     this.stack = [];
@@ -25,9 +25,9 @@ export class Middleware {
         throw new TypeError("Middleware must be composed of functions!");
     }
 
-    return async function(context, next) {
+    return function(context, next) {
       let last = -1;
-      async function stackAt(i) {
+      function stackAt(i) {
         if (i <= last) {
           return Promise.reject(new Error("next() called multiple times"));
         }
@@ -36,9 +36,11 @@ export class Middleware {
         if (!fn) return;
         last = i;
         try {
-          return await fn(context, function() {
-            return stackAt(i + 1);
-          });
+          return Promise.resolve(
+            fn(context, function() {
+              return stackAt(i + 1);
+            })
+          );
         } catch (err) {
           return Promise.reject(err);
         }

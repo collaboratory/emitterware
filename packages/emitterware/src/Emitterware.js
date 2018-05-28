@@ -39,7 +39,11 @@ export class Emitterware {
   }
 
   sorted(name) {
-    return [...(name !== "*" && this.stack("*")), ...this.stack(name)]
+    const middlewarePool = [
+      ...(name !== "*" && this.stack("*")),
+      ...this.stack(name)
+    ];
+    return middlewarePool
       .filter(f => !!f && f)
       .sort((a, b) => a.priority - b.priority)
       .map(m => m.cb);

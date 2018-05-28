@@ -1,4 +1,4 @@
-import Router from "./router";
+import Router from "./Router";
 describe("Router", () => {
   it("should allow registration of routes", () => {
     const fn = jest.fn();

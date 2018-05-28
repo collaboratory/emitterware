@@ -27,7 +27,6 @@ export function serve(url, dirname, cache = false) {
     } else {
       await next();
     }
-    // const stats = fs.lstatSync();
   };
 }
 export default serve;
