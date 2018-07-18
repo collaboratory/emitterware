@@ -18,18 +18,29 @@ export function httpProvider({
   return (onRequest, service) => {
     const server = http.createServer(async (req, res) => {
       try {
-        const ctx = await onRequest(await httpContext({}, req, res), "web");
+        const baseContext = await httpContext({}, req, res);
+        const ctx = await onRequest(baseContext, "web");
         if (!ctx.done) {
           if (ctx.response.body && typeof ctx.response.body !== "string") {
             ctx.response.headers["Content-Type"] = "text/json";
             ctx.response.body = JSON.stringify(ctx.response.body);
           }
 
-          ctx.response.headers["Set-Cookie"] = Object.keys(
-            ctx.response.cookies
-          ).map(key => `${key}=${ctx.response.cookies[key]}`);
+          ctx.response.headers["Set-Cookie"] = [
+            ...Object.keys(ctx.response.cookies).map(key => {
+              const value = ctx.response.cookies[key];
+              if (value !== null) {
+                return `${key}=${ctx.response.cookies[key]}; Path=/;`;
+              } else {
+                return `${key}=; Domain=localhost; Path=/;`;
+              }
+            })
+          ];
 
-          console.log('WriteHead');
+          if (!ctx.response.body) {
+            console.warn("WARNING: ctx.response.body is unset");
+          }
+
           res.writeHead(ctx.response.status, ctx.response.headers);
           res.write(ctx.response.body);
           res.addTrailers(ctx.response.trailers);

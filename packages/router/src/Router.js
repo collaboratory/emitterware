@@ -1,3 +1,5 @@
+import Middleware from "@emitterware/middleware";
+
 export class Router {
   routes = new Map();
 
@@ -9,7 +11,14 @@ export class Router {
   }
 
   use = (route, middleware, method = "any") => {
-    this.routes.set(route, [middleware, method]);
+    let stack;
+    if (this.routes.has(route)) {
+      stack = this.routes.get(route);
+    } else {
+      stack = [];
+    }
+    stack.push([middleware, method]);
+    this.routes.set(route, stack);
   };
 
   get = (route, middleware) => this.use(route, middleware, "GET");
@@ -41,14 +50,19 @@ export class Router {
   };
 
   middleware = async (ctx, next) => {
-    console.log("Attempting router", ctx.request.method);
-    for (let [key, [middleware, method]] of this.routes) {
-      if (method.toLowerCase() === "any" || ctx.request.method === method) {
-        const match = this.route(key, ctx.request.url);
-        if (match) {
-          ctx.request.match = match;
-          await middleware(ctx, next);
-          return;
+    for (let [key, stack] of this.routes) {
+      for (let [middleware, method] of stack) {
+        if (method.toLowerCase() === "any" || ctx.request.method === method) {
+          const match = this.route(key, ctx.request.url);
+          if (match) {
+            ctx.request.match = match;
+            if (Array.isArray(middleware)) {
+              await Middleware.compose(middleware)(ctx, next);
+            } else {
+              await middleware(ctx, next);
+            }
+            return;
+          }
         }
       }
     }

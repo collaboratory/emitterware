@@ -1,0 +1,29 @@
+{
+  "name": "@emitterware/session",
+  "description": "Session middleware for Emitterware servers",
+  "authors": "Andrew Ewing <drew@collaboratory.io>",
+  "version": "0.0.0",
+  "main": "dist/main.js",
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "babel --ignore '**/*.test.js,**/__tests__' --compact --minified -d dist/ src/",
+    "watch": "babel --ignore '**/*.test.js,**/__tests__' --watch --compact --minified -d dist/ src/",
+    "lint": "eslint src/",
+    "lint-fix": "eslint src/ --fix",
+    "clean": "rm -rf dist/*.js",
+    "build-clean": "npm run lint-fix && npm run clean && npm run build"
+  },
+  "dependencies": {
+    "@emitterware/app": "^0.0.0",
+    "@emitterware/bundler": "^0.0.0",
+    "@emitterware/http": "^0.0.0",
+    "@tailored/app": "^0.0.0",
+    "@tailored/theme-default": "^0.0.0"
+  }
+}

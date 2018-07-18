@@ -28,20 +28,40 @@ export async function httpContext(
     raw: () => res
   };
 
-  ctx.error = error;
+  ctx.error = (code, message) => {
+    ctx.response.status = code;
+    ctx.response.body = { error: message };
+  };
+
+  ctx.success = body => {
+    ctx.response.status = 200;
+    ctx.response.body = body;
+  };
 
   // Cookies support
   ctx.request.cookies = ctx.request.headers.cookie
     ? qs.parse(ctx.request.headers.cookie.replace(/; /g, "&"))
     : {};
 
+  // Sanitize cookies
+  Object.keys(ctx.request.cookies).map(key => {
+    if (Array.isArray(ctx.request.cookies[key])) {
+      ctx.request.cookies[key] = ctx.request.cookies[key][0];
+    } else if (ctx.request.cookies[key] !== null) {
+      ctx.request.cookies[key] = ctx.request.cookies[key].split(",")[0];
+    }
+  });
+
   ctx.redirect = (location, status = 302, headers = {}) => {
     const res = ctx.response.raw();
     res.writeHead(status, {
       Location: location,
-      "Set-Cookie": Object.keys(ctx.response.cookies).map(
-        key => `${key}=${ctx.response.cookies[key]}`
-      ),
+      "Set-Cookie": [
+        ...Object.keys(ctx.response.cookies).map(
+          key =>
+            `${key}=${ctx.response.cookies[key]}; Domain=localhost; Path=/;`
+        )
+      ],
       ...headers
     });
     res.end();

@@ -1,14 +1,11 @@
 export function convertMiddleware(fn, finalize = false) {
   return async (ctx, next) => {
-    console.log('Should finalize: ', finalize);
     if (finalize) {
-      console.log('Finalizing');
       ctx.done = true;
     }
 
     // Set our cookies
     if (Object.keys(ctx.response.cookies).length) {
-      console.log('Setting headers');
       ctx.response
         .raw()
         .setHeader(
@@ -17,7 +14,6 @@ export function convertMiddleware(fn, finalize = false) {
             key => `${key}=${ctx.response.cookies[key]}`
           )
         );
-      console.log('Done');
     }
 
     await new Promise((resolve, reject) => {

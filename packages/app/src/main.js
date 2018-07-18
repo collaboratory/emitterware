@@ -35,12 +35,13 @@ export class EmitterwareApp {
 
   request(ctx, provider) {
     return new Promise((resolve, reject) => {
-      try {
-        Promise.resolve(this.stack.emit(provider, ctx));
-        resolve(ctx);
-      } catch (e) {
-        reject(e);
-      }
+      Promise.resolve(this.stack.emit(provider, ctx))
+        .then(() => {
+          resolve(ctx);
+        })
+        .catch(e => {
+          reject(e);
+        });
     });
   }
 }
