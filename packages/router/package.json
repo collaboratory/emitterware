@@ -20,6 +20,7 @@
     "build-clean": "npm run lint-fix && npm run clean && npm run build"
   },
   "dependencies": {
+    "@emitterware/middleware": "^0.0.0",
     "route-parser": "0.0.5"
   }
 }
