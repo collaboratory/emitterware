@@ -1,0 +1,27 @@
+{
+  "name": "@emitterware/auth",
+  "description": "Authentication provider for Emitterware apps",
+  "authors": "Andrew Ewing <drew@collaboratory.io>",
+  "version": "0.0.0",
+  "main": "dist/main.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "babel --ignore '**/*.test.js,**/__tests__' --compact --minified -d dist/ src/",
+    "watch": "babel --ignore '**/*.test.js,**/__tests__' --watch --compact --minified -d dist/ src/",
+    "lint": "eslint src/",
+    "lint-fix": "eslint src/ --fix",
+    "clean": "rm -rf dist/*.js",
+    "build-clean": "npm run lint-fix && npm run clean && npm run build"
+  },
+  "dependencies": {
+    "@emitterware/emitterware": "^0.0.0",
+    "@emitterware/middleware": "^0.0.0",
+    "bcryptjs": "^2.4.3"
+  }
+}

@@ -9,6 +9,8 @@ export async function httpContext(
   const [url, queryString = ""] = req.url.split("?");
   const query = qs.parse(queryString);
 
+  ctx.prefetch = {};
+
   ctx.request = {
     url,
     query,

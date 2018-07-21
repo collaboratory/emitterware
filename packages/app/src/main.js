@@ -3,6 +3,7 @@ export class EmitterwareApp {
   constructor(options = {}) {
     this.options = options;
     this.providers = new Map();
+    this.registry = new Map();
     this.stack = new Emitterware();
   }
 
@@ -43,6 +44,22 @@ export class EmitterwareApp {
           reject(e);
         });
     });
+  }
+
+  register(...args) {
+    const value = args.pop();
+    const key = args.join(".");
+    this.registry.set(key, value);
+  }
+
+  plugin(instance) {
+    this.register("Plugin", instance.name, instance);
+    instance.run(this);
+  }
+
+  registered(...args) {
+    const key = args.join(".");
+    return this.registry.has(key) && this.registry.get(key);
   }
 }
 export default EmitterwareApp;
