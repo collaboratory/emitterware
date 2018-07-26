@@ -14,15 +14,19 @@ module.exports = app => {
   const User = app.registry.get("Model.User");
 
   const authMiddleware = async (ctx, next) => {
-    mandateDependencies(ctx);
-    const userID = await ctx.session.get("userID");
-    if (userID) {
-      ctx.session.user = await User.findById(userID, {
-        withRelated: ["roles", "permissions", "roles.permissions"]
-      });
-    }
+    try {
+      mandateDependencies(ctx);
+      const userID = await ctx.session.get("userID");
+      if (userID) {
+        ctx.session.user = await User.findById(userID, {
+          withRelated: ["roles", "permissions", "roles.permissions"]
+        });
+      }
 
-    await next();
+      await next();
+    } catch (err) {
+      ctx.error(500, err);
+    }
   };
   app.register("Middleware", "Auth", authMiddleware);
 
