@@ -23,6 +23,20 @@ module.exports = app => {
     }
   ]);
 
+  router.put("/api/user/:id", [
+    RequirePermission("users.edit"),
+    userPrefetch,
+    async (ctx, next) => {
+      const { alias, email, first_name, last_name } = ctx.request.body;
+      await ctx.prefetch.user
+        .save({ alias, email, first_name, last_name }, { method: "update" })
+        .catch(() => {
+          return ctx.error(500, "Failed to save user.");
+        });
+      return ctx.success({ user: ctx.prefetch.user, success: true });
+    }
+  ]);
+
   router.get("/api/user/:id/roles", [
     RequirePermission("users.view"),
     userPrefetch,
