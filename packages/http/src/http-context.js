@@ -70,24 +70,24 @@ export async function httpContext(
     ctx.done = true;
   };
 
-  await new Promise((resolve, reject) => {
-    req
-      .on("data", chunk => {
-        ctx.request.body.push(chunk);
-      })
-      .on("end", () => {
-        ctx.request.body = Buffer.concat(ctx.request.body).toString();
-        try {
-          ctx.request.body = JSON.parse(ctx.request.body);
-        } catch (e) {
-          try {
-            ctx.request.body = qs.parse(ctx.request.body);
-          } catch (x) {}
-        }
-        resolve(true);
-      })
-      .on("error", reject);
-  });
+  // await new Promise((resolve, reject) => {
+  //   req
+  //     .on("data", chunk => {
+  //       ctx.request.body.push(chunk);
+  //     })
+  //     .on("end", () => {
+  //       ctx.request.body = Buffer.concat(ctx.request.body).toString();
+  //       try {
+  //         ctx.request.body = JSON.parse(ctx.request.body);
+  //       } catch (e) {
+  //         try {
+  //           ctx.request.body = qs.parse(ctx.request.body);
+  //         } catch (x) {}
+  //       }
+  //       resolve(true);
+  //     })
+  //     .on("error", reject);
+  // });
 
   return ctx;
 }
