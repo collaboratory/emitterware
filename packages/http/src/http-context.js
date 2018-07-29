@@ -70,24 +70,54 @@ export async function httpContext(
     ctx.done = true;
   };
 
-  // await new Promise((resolve, reject) => {
-  //   req
-  //     .on("data", chunk => {
-  //       ctx.request.body.push(chunk);
-  //     })
-  //     .on("end", () => {
-  //       ctx.request.body = Buffer.concat(ctx.request.body).toString();
-  //       try {
-  //         ctx.request.body = JSON.parse(ctx.request.body);
-  //       } catch (e) {
-  //         try {
-  //           ctx.request.body = qs.parse(ctx.request.body);
-  //         } catch (x) {}
-  //       }
-  //       resolve(true);
-  //     })
-  //     .on("error", reject);
-  // });
+  // Analyze request to determine parse method
+  const [contentType] = (ctx.request.headers["content-type"] || "").split(";");
+
+  if (contentType === "multipart/form-data") {
+    const { Form } = require("multiparty");
+    const form = new Form();
+    await new Promise((resolve, reject) => {
+      form.parse(ctx.request.raw(), (err, fields, files) => {
+        if (err) {
+          ctx.response.status = 500;
+          ctx.response.body = err;
+          resolve(false);
+        }
+
+        ctx.request.body = Object.entries(fields).reduce(
+          (res, [key, value]) => {
+            res[key] = Array.isArray(value)
+              ? value.length > 1
+                ? value
+                : value[0]
+              : value;
+            return res;
+          },
+          {}
+        );
+        ctx.request.files = files;
+
+        resolve();
+      });
+    });
+  } else {
+    await new Promise((resolve, reject) => {
+      req
+        .on("data", chunk => {
+          ctx.request.body.push(chunk);
+        })
+        .on("end", () => {
+          ctx.request.body = Buffer.concat(ctx.request.body).toString();
+          if (contentType.indexOf("json") > -1) {
+            ctx.request.body = JSON.parse(ctx.request.body);
+          } else {
+            ctx.request.body = qs.parse(ctx.request.body);
+          }
+          resolve(true);
+        })
+        .on("error", reject);
+    });
+  }
 
   return ctx;
 }

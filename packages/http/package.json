@@ -20,6 +20,7 @@
     "build-clean": "npm run lint-fix && npm run clean && npm run build"
   },
   "dependencies": {
+    "multiparty": "^4.1.4",
     "route-parser": "0.0.5"
   }
 }
