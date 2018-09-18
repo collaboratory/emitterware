@@ -2,7 +2,7 @@
   "name": "@emitterware/map-factory",
   "description": "A map factory utility",
   "authors": "Andrew Ewing <contact@aewing.io>",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/main.js",
   "files": [
     "dist/main.js",

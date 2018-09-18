@@ -2,7 +2,7 @@
   "name": "@emitterware/observable",
   "description": "Observable objects in Node & the browser",
   "authors": "Andrew Ewing <contact@aewing.io>",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/main.js",
   "files": [
     "dist/",
@@ -20,6 +20,6 @@
     "build-clean": "npm run lint-fix && npm run clean && npm run build"
   },
   "dependencies": {
-    "@emitterware/emitter": "^0.0.0"
+    "@emitterware/emitter": "^0.0.1"
   }
 }

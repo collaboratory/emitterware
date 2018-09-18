@@ -1,12 +1,12 @@
 {
   "name": "@emitterware/example-websockets",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "backend/main.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@emitterware/app": "^0.0.0",
-    "@emitterware/router": "^0.0.0",
-    "@emitterware/websocket": "^0.0.0"
+    "@emitterware/app": "^0.0.1",
+    "@emitterware/router": "^0.0.1",
+    "@emitterware/websocket": "^0.0.1"
   }
 }
