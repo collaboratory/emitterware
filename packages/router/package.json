@@ -2,7 +2,7 @@
   "name": "@emitterware/router",
   "description": "Resource router for the emitterware ecosystem",
   "authors": "Andrew Ewing <contact@aewing.io>",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/main.js",
   "files": [
     "dist/",
@@ -20,7 +20,7 @@
     "build-clean": "npm run lint-fix && npm run clean && npm run build"
   },
   "dependencies": {
-    "@emitterware/middleware": "^0.0.3",
+    "@emitterware/middleware": "^0.0.4",
     "route-parser": "0.0.5"
   }
 }

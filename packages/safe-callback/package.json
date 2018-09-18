@@ -2,10 +2,10 @@
   "name": "@emitterware/safe-callback",
   "description": "A safe callback wrapper",
   "authors": "Andrew Ewing <contact@aewing.io>",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/main.js",
   "files": [
-    "dist/main.js",
+    "dist/",
     "README.md"
   ],
   "publishConfig": {
