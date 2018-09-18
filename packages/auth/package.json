@@ -2,7 +2,7 @@
   "name": "@emitterware/auth",
   "description": "Authentication provider for Emitterware apps",
   "authors": "Andrew Ewing <drew@collaboratory.io>",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/main.js",
   "publishConfig": {
     "access": "public"

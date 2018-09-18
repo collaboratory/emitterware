@@ -2,7 +2,7 @@
   "name": "@emitterware/session",
   "description": "Session middleware for Emitterware servers",
   "authors": "Andrew Ewing <drew@collaboratory.io>",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/main.js",
   "files": [
     "dist/",
@@ -21,9 +21,7 @@
   },
   "dependencies": {
     "@emitterware/app": "^0.0.1",
-    "@emitterware/bundler": "^0.0.1",
-    "@emitterware/http": "^0.0.1",
-    "@tailored/app": "^0.0.0",
-    "@tailored/theme-default": "^0.0.0"
+    "@emitterware/bundler": "^0.0.2",
+    "@emitterware/http": "^0.0.2"
   }
 }
