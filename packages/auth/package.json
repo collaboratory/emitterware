@@ -2,7 +2,7 @@
   "name": "@emitterware/auth",
   "description": "Authentication provider for Emitterware apps",
   "authors": "Andrew Ewing <drew@collaboratory.io>",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/main.js",
   "publishConfig": {
     "access": "public"
@@ -20,8 +20,8 @@
     "build-clean": "npm run lint-fix && npm run clean && npm run build"
   },
   "dependencies": {
-    "@emitterware/emitterware": "^0.0.1",
-    "@emitterware/middleware": "^0.0.1",
+    "@emitterware/emitterware": "^0.0.3",
+    "@emitterware/middleware": "^0.0.3",
     "bcryptjs": "^2.4.3"
   }
 }
