@@ -2,7 +2,7 @@
   "name": "@emitterware/bundler",
   "description": "Frontend asset bundler the emitterware ecosystem",
   "authors": "Andrew Ewing <contact@aewing.io>",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/main.js",
   "files": [
     "dist/",
@@ -20,7 +20,7 @@
     "build-clean": "npm run lint-fix && npm run clean && npm run build"
   },
   "dependencies": {
-    "@emitterware/http": "^0.0.4",
+    "@emitterware/http": "^0.0.5",
     "parcel-bundler": "^1.7.1"
   }
 }
