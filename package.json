@@ -7,17 +7,21 @@
 	},
 	"devDependencies": {
 		"babel-core": "^6.26.0",
+		"babel-eslint": "^10.0.1",
 		"babel-plugin-transform-class-properties": "^6.24.1",
 		"babel-plugin-transform-object-rest-spread": "^6.26.0",
 		"babel-preset-env": "^1.6.1",
 		"jest-cli": "^22.4.3",
-		"lerna": "^2.5.1"
+		"lerna": "^3.13.1"
 	},
 	"dependencies": {
-		"babel-cli": "^6.26.0",
-		"babel-eslint": "^8.2.2",
-		"babel-jest": "^22.4.3",
-		"babel-plugin-transform-runtime": "^6.23.0",
+		"@babel/cli": "^7.2.3",
+		"@babel/core": "^7.4.0",
+		"@babel/plugin-proposal-class-properties": "^7.4.0",
+		"@babel/plugin-transform-runtime": "^7.4.0",
+		"@babel/preset-env": "^7.4.2",
+		"@babel/preset-react": "^7.0.0",
+		"@babel/runtime": "^7.4.2",
 		"eslint": "^4.19.1",
 		"eslint-config-prettier": "^2.9.0",
 		"eslint-config-standard": "^11.0.0",
@@ -30,5 +34,6 @@
 		"eslint-plugin-standard": "^3.0.1",
 		"prettier": "^1.11.1"
 	},
-	"npmClient": "yarn"
+	"npmClient": "yarn",
+	"name": "emitterware"
 }

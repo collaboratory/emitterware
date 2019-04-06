@@ -2,7 +2,7 @@
   "name": "@emitterware/app",
   "description": "The core of an emitterware application",
   "authors": "Andrew Ewing <drew@collaboratory.io>",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "main": "dist/main.js",
   "publishConfig": {
     "access": "public"
@@ -12,8 +12,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "babel --ignore '**/*.test.js,**/__tests__' --compact --minified -d dist/ src/",
-    "watch": "babel --ignore '**/*.test.js,**/__tests__' --watch --compact --minified -d dist/ src/",
+    "build": "npx babel --ignore '**/*.test.js,**/__tests__' --compact --minified -d dist/ src/",
+    "watch": "npx babel --ignore '**/*.test.js,**/__tests__' --watch --compact --minified -d dist/ src/",
     "benchmark": "node benchmark",
     "benchmark-watch": "npm run benchmark-watch-emitters & npm run benchmark-watch-middleware",
     "benchmark-watch-emitters": "nodemon --watch 'dist/Emitter.js' --watch 'dist/Emitterware.js' --watch 'benchmark/emitters.js' --exec 'node benchmark/emitters'",

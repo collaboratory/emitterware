@@ -1,3 +1,10 @@
-export { httpProvider as default, httpProvider } from "./http-provider";
-export { httpContext } from "./http-context";
-export { convertMiddleware } from "./convert-middleware";
+export {
+  httpProvider as default,
+  httpProvider as http,
+  httpProvider
+} from "./http-provider";
+export { httpContext, httpContext as context } from "./http-context";
+export {
+  convertMiddleware,
+  convertMiddleware as convert
+} from "./convert-middleware";

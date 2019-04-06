@@ -34,6 +34,7 @@ export async function httpContext(
     ctx.response.status = code;
     ctx.response.body = { error: message };
   };
+  ctx.throw = ctx.error;
 
   ctx.success = body => {
     ctx.response.status = 200;

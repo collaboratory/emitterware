@@ -1,6 +1,5 @@
 export {
-  WebSocketProvider as default,
-  WebSocketProvider,
-  WebSocketContext,
-  convertMiddleware
-} from "./WebSocketProvider";
+  websocketProvider as default,
+  websocketProvider as websocket,
+  websocketProvider
+} from "./websocket-provider";

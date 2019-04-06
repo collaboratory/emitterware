@@ -15,8 +15,12 @@ export function httpProvider({
   ...config
 } = {}) {
   // TODO: Make use of config & service variables
-  return (onRequest, service) => {
-    const server = http.createServer(async (req, res) => {
+  const provider = {
+    id: "http",
+    server: null
+  };
+  provider.handler = (onRequest, service) => {
+    provider.server = http.createServer(async (req, res) => {
       try {
         const baseContext = await httpContext({}, req, res);
         const ctx = await onRequest(baseContext, "web");
@@ -38,7 +42,19 @@ export function httpProvider({
           ];
 
           if (!ctx.response.body) {
-            console.warn("WARNING: ctx.response.body is unset");
+            if (ctx.body) {
+              ctx.response.body = ctx.body;
+            } else {
+              console.warn("WARNING: ctx.response.body is unset");
+            }
+          }
+
+          if (ctx.headers) {
+            Object.assign(ctx.response.headers, ctx.headers);
+          }
+
+          if (ctx.trailers) {
+            Object.assign(ctx.response.trailers, ctx.trailers);
           }
 
           res.writeHead(ctx.response.status, ctx.response.headers);
@@ -52,12 +68,13 @@ export function httpProvider({
     });
 
     console.log(`Emitterware HTTP server listening at ${host}:${port}`);
-    server.listen(port, host);
+    provider.server.listen(port, host);
 
-    server.on("clientError", (err, socket) => {
+    provider.server.on("clientError", (err, socket) => {
       console.log("clientError onRequest");
       return onRequest(httpContext(null, null, err));
     });
   };
+  return provider;
 }
 export default httpProvider;

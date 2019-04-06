@@ -8,20 +8,24 @@ const ws = require("ws");
  * @returns {function(*=, *)}
  * @constructor
  */
-export function WebSocketProvider({
-  port = 9000,
-  host = "127.0.0.1",
-  ...config
-} = {}) {
-  // TODO: Make use of config & service variables
-  return (onRequest, service) => {
-    const server = new ws.Server({
-      port,
-      host,
-      ...config
-    });
+export function websocketProvider(config = {}) {
+  if (!config.server) {
+    if (!config.host) {
+      config.host = "localhost";
+    }
+    if (!config.port) {
+      config.port = 9000;
+    }
+  }
 
-    server.on("connection", sock => {
+  // TODO: Make use of config & service variables
+  const provider = {
+    id: "ws",
+    server: null
+  };
+  provider.handler = (onRequest, service) => {
+    provider.server = new ws.Server(config);
+    provider.server.on("connection", sock => {
       const conn = { sock };
       onRequest({ action: "init", conn }, service).then(connCtx => {
         sock.on("message", message => {
@@ -46,7 +50,12 @@ export function WebSocketProvider({
       });
     });
 
-    console.log(`Emitterware websocket provider listening at ${host}:${port}`);
+    console.log(
+      `Emitterware websocket provider listening${
+        config.server ? "." : ` at ${config.host}:${config.port}`
+      }`
+    );
   };
+  return provider;
 }
-export default WebSocketProvider;
+export default websocketProvider;

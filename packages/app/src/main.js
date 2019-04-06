@@ -7,32 +7,42 @@ export class EmitterwareApp {
     this.stack = new Emitterware();
   }
 
-  provider(name, provider) {
-    if (this.providers.has(name)) {
-      throw new Error(
-        "Emitterware already has a provider registered for '" + name + "'"
-      );
+  subscribe(provider) {
+    if (!provider.id || !provider.handler) {
+      console.log(provider);
+      throw new Error("Cannot subscribe to invalid provider");
+    }
+
+    if (this.providers.has(provider.id)) {
+      throw new Error(`Provider already registered: ${provider.id}`);
     }
 
     this.providers.set(
-      name,
-      provider(request => Promise.resolve(this.request(request, name)))
+      provider.id,
+      provider.handler(
+        request => Promise.resolve(this.request(request, provider.id)),
+        this
+      )
     );
+
+    return provider.id;
   }
 
-  removeProvider(name) {
-    this.providers.remove(name);
+  unsubscribe(id) {
+    this.providers.remove(id);
   }
 
-  middleware(method, emitter = "*", priority = 0) {
-    this.stack.on(emitter, method, priority);
+  on(provider, callback, priority = 0) {
+    this.stack.on(provider, callback, priority);
   }
-  use = this.middleware;
 
-  removeMiddleware(method, emitter = "*") {
-    this.stack.off(emitter, method);
+  off(provider, callback) {
+    this.stack.off(provider, callback);
   }
-  remove = this.removeMiddleware;
+
+  use(callback, priority = 0) {
+    this.stack.on('*', callback, priority);
+  }
 
   request(ctx, provider) {
     return new Promise((resolve, reject) => {
