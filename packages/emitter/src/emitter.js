@@ -1,6 +1,11 @@
 // Emitter
-export class Emitter {
+class Emitter {
   constructor() {
+    this.on = this.on.bind(this);
+    this.off = this.off.bind(this);
+    this.emit = this.emit.bind(this);
+    this.event = this.event.bind(this);
+    this.size = this.size.bind(this);
     this.store = Object.create(null);
   }
 
@@ -18,6 +23,7 @@ export class Emitter {
   }
 
   emit(event, data, isAsync = false) {
+    console.log("Emitting", event, data);
     const result = this.event(event).map(cb => cb(data));
     return isAsync ? Promise.all(result) : result;
   }
@@ -35,4 +41,4 @@ export class Emitter {
     );
   }
 }
-export default Emitter;
+module.exports = Emitter;

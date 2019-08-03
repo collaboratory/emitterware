@@ -1,7 +1,6 @@
 // Emitterware
-import { Middleware } from "@emitterware/middleware";
-
-export class Emitterware {
+const Middleware = require("@emitterware/middleware");
+class Emitterware {
   constructor() {
     this.store = Object.create(null);
     this._cache = {};
@@ -14,9 +13,11 @@ export class Emitterware {
 
   off(e, cb) {
     const channel = this.stack(e);
-    channel.filter(o => o.cb === cb).map(entry => {
-      channel.splice(channel.indexOf(entry) >>> 0, 1);
-    });
+    channel
+      .filter(o => o.cb === cb)
+      .map(entry => {
+        channel.splice(channel.indexOf(entry) >>> 0, 1);
+      });
     this.cache(e, true);
   }
 
@@ -56,4 +57,4 @@ export class Emitterware {
     return this._cache[name];
   }
 }
-export default Emitterware;
+module.exports = Emitterware;

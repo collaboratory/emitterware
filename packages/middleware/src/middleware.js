@@ -1,16 +1,19 @@
 // Middleware
-import { forAny } from "@emitterware/safe-callback";
-export class Middleware {
+const { safeCallbackWith } = require("@emitterware/safe-callback");
+
+class Middleware {
   constructor() {
     this.stack = [];
   }
 
   use(cb) {
-    return forAny(cb, m => this.stack.push(m));
+    return safeCallbackWith(cb, m => this.stack.push(m));
   }
 
   remove(cb) {
-    return forAny(cb, m => this.stack.splice(this.stack.indexOf(m) >>> 0, 1));
+    return safeCallbackWith(cb, m =>
+      this.stack.splice(this.stack.indexOf(m) >>> 0, 1)
+    );
   }
 
   compose(stack = false) {
@@ -49,4 +52,5 @@ export class Middleware {
     };
   }
 }
-export default Middleware;
+
+module.exports = Middleware;

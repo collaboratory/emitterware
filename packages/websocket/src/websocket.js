@@ -1,5 +1,4 @@
 const ws = require("ws");
-
 /**
  *
  * @param port
@@ -8,7 +7,7 @@ const ws = require("ws");
  * @returns {function(*=, *)}
  * @constructor
  */
-export function websocketProvider(config = {}) {
+module.exports = function websocket(config = {}) {
   if (!config.server) {
     if (!config.host) {
       config.host = "localhost";
@@ -57,5 +56,4 @@ export function websocketProvider(config = {}) {
     );
   };
   return provider;
-}
-export default websocketProvider;
+};

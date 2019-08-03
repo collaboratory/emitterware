@@ -12,12 +12,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "babel --ignore '**/*.test.js,**/__tests__' --compact --minified -d dist/ src/",
-    "watch": "babel --ignore '**/*.test.js,**/__tests__' --watch --compact --minified -d dist/ src/",
     "lint": "eslint src/",
-    "lint-fix": "eslint src/ --fix",
-    "clean": "rm -rf dist/*.js",
-    "build-clean": "npm run lint-fix && npm run clean && npm run build"
+    "lint-fix": "eslint src/ --fix"
   },
   "dependencies": {
     "@emitterware/middleware": "^0.0.5",

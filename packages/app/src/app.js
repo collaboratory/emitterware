@@ -1,5 +1,6 @@
-import { Emitterware } from "@emitterware/emitterware";
-export class EmitterwareApp {
+const Emitterware = require("@emitterware/emitterware");
+
+class EmitterwareApp {
   constructor(options = {}) {
     this.options = options;
     this.providers = new Map();
@@ -41,7 +42,7 @@ export class EmitterwareApp {
   }
 
   use(callback, priority = 0) {
-    this.stack.on('*', callback, priority);
+    this.stack.on("*", callback, priority);
   }
 
   request(ctx, provider) {
@@ -72,4 +73,5 @@ export class EmitterwareApp {
     return this.registry.has(key) && this.registry.get(key);
   }
 }
-export default EmitterwareApp;
+
+module.exports = EmitterwareApp;

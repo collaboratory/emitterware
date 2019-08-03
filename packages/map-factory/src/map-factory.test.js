@@ -1,4 +1,4 @@
-const { MapFactory } = require("./MapFactory");
+const MapFactory = require("./map-factory");
 const config = { a: 1, b: 1 };
 
 function makeMethod() {

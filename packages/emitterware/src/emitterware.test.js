@@ -1,4 +1,4 @@
-const { Emitterware } = require("./Emitterware");
+const Emitterware = require("./emitterware");
 
 describe("Emitterware", function() {
   it("should construct without error", () => {

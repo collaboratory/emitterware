@@ -21,5 +21,8 @@
   },
   "dependencies": {
     "@emitterware/emitter": "^0.0.1"
+  },
+  "devDependencies": {
+    "@emitterware/middleware": "0.0.5"
   }
 }

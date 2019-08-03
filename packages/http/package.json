@@ -1,26 +1,30 @@
 {
   "name": "@emitterware/http",
-  "description": "HTTP server for the emitterware ecosystem",
+  "description": "Middleware focused HTTP server for the emitterware ecosystem",
   "authors": "Andrew Ewing <contact@aewing.io>",
-  "version": "0.0.5",
-  "main": "dist/main.js",
+  "version": "1.0.0",
+  "main": "src/http.js",
   "files": [
-    "dist/",
+    "src/http.js",
     "README.md"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "babel --ignore '**/*.test.js,**/__tests__' --compact --minified -d dist/ src/",
-    "watch": "babel --ignore '**/*.test.js,**/__tests__' --watch --compact --minified -d dist/ src/",
     "lint": "eslint src/",
-    "lint-fix": "eslint src/ --fix",
-    "clean": "rm -rf dist/*.js",
-    "build-clean": "npm run lint-fix && npm run clean && npm run build"
+    "lint-fix": "eslint src/ --fix"
   },
   "dependencies": {
+    "body": "^5.1.0",
     "multiparty": "^4.1.4",
+    "pino": "^5.13.1",
+    "pino-http": "^4.2.0",
+    "pino-pretty": "^3.2.0",
     "route-parser": "0.0.5"
+  },
+  "devDependencies": {
+    "@emitterware/app": "^0.2.0",
+    "axios": "^0.19.0"
   }
 }

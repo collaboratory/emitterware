@@ -1,14 +1,8 @@
-const { Observable } = require("./Observable");
-describe("Observable", () => {
-	const emitterMock = {
-		on: jest.fn(),
-		off: jest.fn(),
-		emit: jest.fn()
-	};
-	it("should expose emitter methods", () => {
-		const obs = new Observable({
-			emitter: emitterMock
-		});
+const Middleware = require("./middleware");
+
+describe("Middleware", () => {
+  it("should allow addition of a single middleware method", () => {
+    const stack = new Middleware();
     const appended = stack.use(() => {});
     expect(appended).toBeTruthy();
   });
@@ -126,4 +120,3 @@ describe("Observable", () => {
       });
   });
 });
-

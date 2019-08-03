@@ -1,4 +1,4 @@
-export function safeCallback(from, shouldThrow = false, source = false) {
+function safeCallback(from, shouldThrow = false, source = false) {
   const fromType = typeof from;
   if (fromType !== "function") {
     if (shouldThrow) {
@@ -8,14 +8,17 @@ export function safeCallback(from, shouldThrow = false, source = false) {
   }
   return from;
 }
-export default safeCallback;
 
-export function safeCallbackWith(thing, cb = null) {
+function safeCallbackWith(thing, cb = null) {
   const callback = safeCallback(cb, true, true);
   return Array.isArray(thing) ? thing.map(callback) : callback(thing);
 }
 
+module.exports = safeCallback;
+module.exports.safeCallback = safeCallback;
+module.exports.safeCallbackWith = safeCallbackWith;
+
 const SafeCallbackError = (type = false, source = false) =>
   `${source ||
-    "safeCallback"} requires a callback as the first parameter. ${type &&
-    `(${type} provided.)`}`;
+    "safeCallback"} requires a callback as the first parameter.${type &&
+    ` (${type} provided.)`}`;

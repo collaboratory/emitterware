@@ -3,9 +3,9 @@
   "description": "A map factory utility",
   "authors": "Andrew Ewing <contact@aewing.io>",
   "version": "0.0.4",
-  "main": "dist/main.js",
+  "main": "src/map-factory.js",
   "files": [
-    "dist/",
+    "src/",
     "README.md"
   ],
   "publishConfig": {

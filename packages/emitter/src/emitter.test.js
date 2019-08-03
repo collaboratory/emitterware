@@ -1,4 +1,4 @@
-const { Emitter } = require("./Emitter");
+const Emitter = require("./emitter");
 
 const runEmitTest = async (obj, isAsync = false) => {
   const emitMethod = isAsync

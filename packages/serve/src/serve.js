@@ -3,7 +3,7 @@ import path from "path";
 
 const fileExistsCache = {};
 const staticFileCache = {};
-export function serve(url, dirname, cache = false) {
+module.exports = function serve(url, dirname, cache = false) {
   return async (ctx, next) => {
     const fileName = path.resolve(`${dirname}${ctx.request.url}`);
 
@@ -28,5 +28,4 @@ export function serve(url, dirname, cache = false) {
       await next();
     }
   };
-}
-export default serve;
+};

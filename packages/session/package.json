@@ -3,9 +3,9 @@
   "description": "Session middleware for Emitterware servers",
   "authors": "Andrew Ewing <drew@collaboratory.io>",
   "version": "0.0.5",
-  "main": "dist/main.js",
+  "main": "src/session.js",
   "files": [
-    "dist/",
+    "src/",
     "README.md"
   ],
   "publishConfig": {

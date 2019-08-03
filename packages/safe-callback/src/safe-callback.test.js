@@ -1,4 +1,5 @@
 const { safeCallback, safeCallbackWith } = require("./safe-callback");
+
 describe("safeCallback", () => {
   it("should return a valid callback", () => {
     const cb = () => {};
@@ -20,7 +21,7 @@ describe("safeCallback", () => {
 describe("safeCallbackWith", () => {
   it("should call a method on all members of an array", () => {
     let sum = 0;
-    forAny([1, 2, 3], e => {
+    safeCallbackWith([1, 2, 3], e => {
       sum += e;
     });
     expect(sum).toBe(6);
@@ -28,7 +29,7 @@ describe("safeCallbackWith", () => {
 
   it("should call a method once for non-array arguments", () => {
     let sum = 0;
-    forAny(42, e => {
+    safeCallbackWith(42, e => {
       sum += e;
     });
     expect(sum).toBe(42);

@@ -1,1 +1,0 @@
-export { Middleware as default, Middleware } from "./Middleware";
