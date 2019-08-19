@@ -2,8 +2,8 @@
 An opinionated and feature rich module ecosystem focusing on event architecture.
 
 ## Status
-This project is in early development, slated for a first official release in January of 2019.
-Until then, all features are subject to change, so keep an eye on pull requests and Glo to know what to expect.
+This project is still in development. Though not fully documented, some portions of the project are usable today.
+Feel free to contribute to the documentation or code.
 
 ## Mission
 The mission of Emitterware is to provide a rich module ecosystem, addressing concerns of event architecture in a standardized, semantic, and predictable fashion in web, mobile, and electron applications.
