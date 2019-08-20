@@ -9,28 +9,25 @@ class EmitterwareApp {
   }
 
   subscribe(provider) {
-    if (!provider.id || !provider.handler) {
-      console.log(provider);
-      throw new Error("Cannot subscribe to invalid provider");
+    if (!provider.id) {
+      throw new Error(`Provider must supply a unique ID`);
+    }
+
+    if (!provider.handler || typeof provider.handler !== "function") {
+      throw new Error(`Provider must supply a valid handler method`);
     }
 
     if (this.providers.has(provider.id)) {
       throw new Error(`Provider already registered: ${provider.id}`);
     }
 
-    this.providers.set(
-      provider.id,
-      provider.handler(
-        request => Promise.resolve(this.request(request, provider.id)),
-        this
-      )
-    );
+    this.providers.set(provider.id, provider.handler);
 
     return provider.id;
   }
 
-  unsubscribe(id) {
-    this.providers.remove(id);
+  unsubscribe(from) {
+    return this.providers.delete(from.id || from);
   }
 
   on(provider, callback, priority = 0) {
@@ -46,15 +43,7 @@ class EmitterwareApp {
   }
 
   request(ctx, provider) {
-    return new Promise((resolve, reject) => {
-      Promise.resolve(this.stack.emit(provider, ctx))
-        .then(() => {
-          resolve(ctx);
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return this.stack.emit(provider, ctx);
   }
 
   register(...args) {

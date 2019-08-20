@@ -18,111 +18,127 @@ const http = function({
   host = "127.0.0.1",
   logger = false,
   listen = true,
+  app = false,
+  id = "http",
   loggerOptions = {},
   ...config
 } = {}) {
   const provider = {
-    id: "http",
+    id,
     server: null,
     logger
   };
 
   // Configure the logger
-  let httpLogger = false;
+  let enableHttpLogger;
   if (!logger) {
     logger = require("pino")({
       level: process.env.LOG_LEVEL || "info",
       prettyPrint: true,
       ...loggerOptions
     });
+    enableHttpLogger = !loggerOptions.disableHttp;
+  } else {
+    enableHttpLogger = loggerOptions.enableHttp;
   }
 
-  if (!loggerOptions.disableHttp) {
+  let httpLogger = false;
+  if (enableHttpLogger) {
     try {
       httpLogger = require("pino-http")({ logger });
-    } catch (e) {}
+    } catch (error) {
+      logger.warn(
+        "@emitterware/http - an error was encountered when loading pino-http"
+      );
+    }
   }
 
-  provider.handler = (onRequest, app) => {
-    const requestHandler = async (req, res) => {
-      try {
-        httpLogger && httpLogger(req, res);
-        const baseContext = await http.context({ app, logger }, req, res);
-        if (baseContext === false) {
-          return res.end();
-        }
+  if (!app) {
+    const App = require("@emitterware/app");
+    app = new App();
+  }
 
-        const ctx = await onRequest(baseContext, "web");
-        if (!ctx.done && ctx !== false) {
-          if (ctx.response.body && typeof ctx.response.body !== "string") {
-            ctx.response.headers["Content-Type"] = "text/json";
-            ctx.response.body = JSON.stringify(ctx.response.body);
-          }
+  provider.app = app;
 
-          ctx.response.headers["Set-Cookie"] = [
-            ...Object.keys(ctx.response.cookies).map(key => {
-              const value = ctx.response.cookies[key];
-              if (value !== null) {
-                return `${key}=${ctx.response.cookies[key]}; Path=/;`;
-              } else {
-                return `${key}=; Domain=localhost; Path=/;`;
-              }
-            })
-          ];
-
-          if (!ctx.response.body) {
-            if (ctx.body) {
-              ctx.response.body = ctx.body;
-            } else {
-              logger.warn("@emitterware/http - respond", {
-                warning: "ctx.response.body is unset"
-              });
-            }
-          }
-
-          if (ctx.headers) {
-            Object.assign(ctx.response.headers, ctx.headers);
-          }
-
-          if (ctx.trailers) {
-            Object.assign(ctx.response.trailers, ctx.trailers);
-          }
-
-          res.writeHead(ctx.response.status, ctx.response.headers);
-          res.write(ctx.response.body);
-          res.addTrailers(ctx.response.trailers);
-          return res.end();
-        }
-      } catch (error) {
-        console.error(error);
-        logger.error("@emitterware/http - respond", { error });
+  provider.handler = async (req, res) => {
+    try {
+      httpLogger && httpLogger(req, res);
+      const reqCtx = await http.context({ app, logger }, req, res);
+      if (reqCtx === false) {
+        return res.end();
       }
-    };
 
+      const resCtx = await app.request(reqCtx, provider.id);
+      if (!resCtx.done && resCtx !== false) {
+        if (resCtx.response.body && typeof resCtx.response.body !== "string") {
+          resCtx.response.headers["Content-Type"] = "text/json";
+          resCtx.response.body = JSON.stringify(resCtx.response.body);
+        }
+
+        resCtx.response.headers["Set-Cookie"] = [
+          ...Object.keys(resCtx.response.cookies).map(key => {
+            const value = resCtx.response.cookies[key];
+            if (value !== null) {
+              return `${key}=${resCtx.response.cookies[key]}; Path=/;`;
+            } else {
+              return `${key}=; Domain=localhost; Path=/;`;
+            }
+          })
+        ];
+
+        if (!resCtx.response.body) {
+          if (resCtx.body) {
+            resCtx.response.body = resCtx.body;
+          } else {
+            logger.warn("@emitterware/http - respond", {
+              warning: "ctx.response.body is unset"
+            });
+          }
+        }
+
+        if (resCtx.headers) {
+          Object.assign(resCtx.response.headers, resCtx.headers);
+        }
+
+        if (resCtx.trailers) {
+          Object.assign(resCtx.response.trailers, resCtx.trailers);
+        }
+
+        res.writeHead(resCtx.response.status, resCtx.response.headers);
+        res.write(resCtx.response.body);
+        res.addTrailers(resCtx.response.trailers);
+        return res.end();
+      }
+    } catch (error) {
+      console.error(error);
+      logger.error("@emitterware/http - respond", { error });
+    }
+  };
+
+  if (!provider.server) {
     provider.server = require("http").createServer(
       {
         host,
         port,
         ...config
       },
-      requestHandler
+      provider.handler
     );
+  }
 
-    logger.info(
-      `@emitterware/http - init; listening at http://${host}:${port} `,
-      {
-        host,
-        port
-      }
-    );
-
-    if (listen) {
-      provider.server.listen({ port, host });
+  logger.info(
+    `@emitterware/http - init; listening at http://${host}:${port} `,
+    {
+      host,
+      port
     }
+  );
 
+  provider.listen = () => {
+    provider.server.listen({ port, host });
     provider.server.on("clientError", (error, socket) => {
       logger.warn("@emitterware/http - clientError", { error });
-      return onRequest(http.context(null, null, error));
+      return app.request(http.context(null, null, error), provider.id);
     });
   };
 
@@ -132,6 +148,10 @@ const http = function({
     setImmediate(() => provider.server.emit("close"));
     return wait;
   };
+
+  if (listen) {
+    provider.listen();
+  }
 
   return provider;
 };
@@ -249,8 +269,28 @@ http.context = async function(ctx = {}, req = null, res = null, error = null) {
 
   return ctx;
 };
+module.exports = http;
 
-http.convertMiddleware = function(fn, finalize = false) {
+module.exports.mock = ({ provider = false, stack = [], request = {} }) => {
+  const mocks = require("node-mocks-http");
+  if (!provider) {
+    provider = http({
+      port: 0,
+      logger: console,
+      listen: false
+    });
+  }
+  provider.app.on("http", stack);
+  const req = mocks.createRequest({
+    method: "GET",
+    url: "/",
+    ...request
+  });
+  const res = mocks.createResponse();
+  return provider.handler(req, res);
+};
+
+module.exports.convertMiddleware = function(fn, finalize = false) {
   return async (ctx, next) => {
     if (finalize) {
       ctx.done = true;
@@ -287,5 +327,3 @@ http.convertMiddleware = function(fn, finalize = false) {
     await next();
   };
 };
-
-module.exports = http;

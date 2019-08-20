@@ -1,6 +1,6 @@
 const Middleware = require("./middleware");
 
-describe("Middleware", () => {
+describe("@emitterware/middleware", () => {
   it("should allow addition of a single middleware method", () => {
     const stack = new Middleware();
     const appended = stack.use(() => {});
@@ -42,10 +42,6 @@ describe("Middleware", () => {
     const stack = new Middleware();
     expect(() => {
       stack.compose("asdf");
-    }).toThrow();
-
-    expect(() => {
-      stack.compose(["asdf"]);
     }).toThrow();
   });
 

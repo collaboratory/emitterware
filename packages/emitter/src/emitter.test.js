@@ -26,7 +26,7 @@ const runEmitTest = async (obj, isAsync = false) => {
   return isAsync ? Promise.all(emits) : emits;
 };
 
-describe("Emitter", function() {
+describe("@emitterware/emitter", function() {
   it("should construct without error", () => {
     const instance = new Emitter();
     expect(instance).toBeTruthy();

@@ -1,6 +1,6 @@
 const Emitterware = require("./emitterware");
 
-describe("Emitterware", function() {
+describe("@emitterware/emitterware", function() {
   it("should construct without error", () => {
     const instance = new Emitterware();
     expect(instance).toBeTruthy();

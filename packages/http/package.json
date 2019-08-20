@@ -13,18 +13,21 @@
   },
   "scripts": {
     "lint": "eslint src/",
-    "lint-fix": "eslint src/ --fix"
+    "lint-fix": "eslint src/ --fix",
+    "test": "npx jest src/http.test.js"
   },
   "dependencies": {
     "body": "^5.1.0",
     "multiparty": "^4.1.4",
-    "pino": "^5.13.1",
-    "pino-http": "^4.2.0",
-    "pino-pretty": "^3.2.0",
     "route-parser": "0.0.5"
+  },
+  "peerDependencies": {
+    "pino": "^5.13.1",
+    "pino-http": "^4.2.0"
   },
   "devDependencies": {
     "@emitterware/app": "^0.2.0",
-    "axios": "^0.19.0"
+    "node-mocks-http": "^1.7.6",
+    "pino-pretty": "^3.2.0"
   }
 }

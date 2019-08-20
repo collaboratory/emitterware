@@ -1,6 +1,6 @@
 const Router = require("./router");
 
-describe("Router", () => {
+describe("@emitterware/router", () => {
   it("should allow registration of routes", () => {
     const fn = jest.fn();
     const r = new Router();
@@ -11,7 +11,6 @@ describe("Router", () => {
   it("should support exact route matches", async () => {
     const r = new Router();
     r.use("/api", async (ctx, next) => {
-      console.log("Here");
       ctx.request.testRouter = true;
       await next();
     });

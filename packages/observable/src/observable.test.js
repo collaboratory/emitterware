@@ -1,6 +1,6 @@
 const Observable = require("./observable");
 const Emitter = require("@emitterware/emitter");
-describe("Observable", () => {
+describe("@emitterware/observable", () => {
   it("should expose emitter methods", () => {
     const obs = new Observable({ foo: "bar" });
     const fn = jest.fn();
