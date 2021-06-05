@@ -1,0 +1,13 @@
+{
+  "name": "@emitterware/websocket",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@emitterware/core": "^2.0.0"
+  },
+  "devDependencies": {
+    "ws": "^7.4.6"
+  }
+}

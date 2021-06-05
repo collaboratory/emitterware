@@ -1,0 +1,15 @@
+{
+  "name": "@emitterware/core",
+  "version": "2.0.0",
+  "main": "src/index.js",
+  "type": "module",
+  "devDependencies": {
+    "jest": "^27.0.4"
+  },
+  "jest": {
+    "transform": {}
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  }
+}

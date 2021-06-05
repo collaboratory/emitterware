@@ -1,0 +1,16 @@
+{
+  "name": "@collaboratory/emitterware",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "jest": "^27.0.4"
+  },
+  "wallaby": {
+    "autoDetect": true,
+    "env": {
+      "params": {
+        "runner": "--experimental-vm-modules"
+      }
+    }
+  }
+}
