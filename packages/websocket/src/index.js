@@ -1,2 +1,2 @@
-export { default as WebsocketServer } from "./server.js";
+export { default, default as WebsocketServer, ifWebsocket } from "./server.js";
 export { default as WebsocketClient } from "./client.js";

@@ -1,6 +1,12 @@
 import Emitterware from "@emitterware/core";
 import ws from "ws";
 
+export function TRANSFORM_JSON(message) {
+  return JSON.stringify(message);
+}
+
+export function TRANSFORM_JSON_HMAC_SHA256(message) {}
+
 export default class WebsocketClient {
   constructor(
     config = "ws://localhost:3005/",
@@ -11,9 +17,8 @@ export default class WebsocketClient {
     this.client.on("open", async () => {
       const ctx = this.buildContext();
       await this.app.emit("connect", ctx);
-      console.log("emitted", ctx);
       if (ctx.response) {
-        this.client.send(ctx.response);
+        this.send(ctx.response);
       }
     });
     this.client.on("message", async (message) => {
@@ -24,7 +29,7 @@ export default class WebsocketClient {
       };
       await this.app.emit(path, ctx);
       if (ctx.response) {
-        this.client.send({ id, ...ctx.response });
+        this.send({ id, ...ctx.response });
       }
     });
     return this.app;

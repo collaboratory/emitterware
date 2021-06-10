@@ -26,3 +26,13 @@ export default class WebsocketProvider {
     return this.app;
   }
 }
+
+export function ifWebsocket(middleware) {
+  return async function ifWebsocketMiddleware(ctx, next) {
+    if (ctx.provider === "websocket") {
+      await middleware(ctx, next);
+    } else {
+      await next();
+    }
+  };
+}
