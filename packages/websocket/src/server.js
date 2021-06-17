@@ -17,9 +17,9 @@ export default class WebsocketProvider {
           request: { id, path, body, sock, providerId },
           response: null,
         };
-        await this.app.emit(path, ctx);
-        if (ctx.response && ctx.response.body) {
-          sock.send({ id, ...ctx.response.body });
+        const response = await this.app.emit(path, ctx);
+        if (response || ctx.response) {
+          sock.send(JSON.stringify({ id, ...(response || ctx.response) }));
         }
       });
     });
