@@ -2,18 +2,18 @@ lockfileVersion: 5.3
 
 specifiers:
   '@emitterware/core': ^2.0.0
-  ws: ^7.4.6
+  ws: ^7.5.0
 
 dependencies:
   '@emitterware/core': link:../core
 
 devDependencies:
-  ws: 7.4.6
+  ws: 7.5.0
 
 packages:
 
-  /ws/7.4.6:
-    resolution: {integrity: sha512-YmhHDO4MzaDLB+M9ym/mDA5z0naX8j7SIlT8f8z+I0VtzsRbekxEutHSme7NPS2qE8StCYQNUnfWdXta/Yu85A==}
+  /ws/7.5.0:
+    resolution: {integrity: sha512-6ezXvzOZupqKj4jUqbQ9tXuJNo+BR2gU8fFRk3XCP3e0G6WT414u5ELe6Y0vtp7kmSJ3F7YWObSNr1ESsgi4vw==}
     engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1

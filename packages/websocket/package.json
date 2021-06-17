@@ -8,6 +8,6 @@
     "@emitterware/core": "^2.0.0"
   },
   "devDependencies": {
-    "ws": "^7.4.6"
+    "ws": "^7.5.0"
   }
 }
