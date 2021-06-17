@@ -23,7 +23,7 @@ export class Emitterware {
       this.handlers[eventName] = [];
     }
     this.handlers[eventName].push({ cb, priority });
-    this.build(eventName);
+    this.emitters[eventName] = this.build(eventName);
   }
 
   off(eventName, cb) {
@@ -31,28 +31,27 @@ export class Emitterware {
       this.handlers[eventName] = this.handlers[eventName].filter(
         (h) => h.cb !== cb
       );
-      this.build(eventName);
+      if (this.handlers[eventName].length) {
+        this.emitters[eventName] = this.build(eventName);
+      } else delete this.emitters[eventName];
     }
   }
 
   build(eventName) {
-    if (this.handlers[eventName]) {
-      this.emitters[eventName] = Middleware.compose(
-        [
-          ...this.handlers[eventName],
-          ...(eventName === "*" ? [] : this.handlers["*"] || []),
-        ]
-          .filter(Boolean)
-          .sort((a, b) => a.priority - b.priority)
-          .map((handler) => handler.cb)
-      );
-    }
+    return Middleware.compose(
+      [
+        ...(this.handlers[eventName] || []),
+        ...(eventName === "*" ? [] : this.handlers["*"] || []),
+      ]
+        .filter(Boolean)
+        .sort((a, b) => a.priority - b.priority)
+        .map((handler) => handler.cb)
+    );
   }
 
   emit(eventName, ...details) {
-    if (this.emitters[eventName]) {
-      return this.emitters[eventName](...details);
-    }
+    const stack = this.emitters[eventName] || this.emitters["*"];
+    return stack(...details);
   }
 
   promise(eventName, filter = false, timeout = 10000) {

@@ -16,10 +16,13 @@ export default createContext;
 
 export function respond(res, { headers = {}, body = {}, status = 200 } = {}) {
   const type =
-    (headers && headers["Content-Type"]) || typeof body === "string"
+    (headers && headers["Content-Type"]) ||
+    (typeof body === "string" && body.length)
       ? "text/html"
       : "application/json";
-  const responseBody = type === "appliction/json" ? JSON.stringify(body) : body;
+  const responseBody = type.includes("json")
+    ? JSON.stringify(body || {})
+    : body || {};
   res.writeHead(status || 200, {
     ...headers,
     "Content-Type": type,
