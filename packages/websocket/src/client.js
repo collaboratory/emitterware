@@ -32,7 +32,18 @@ export default class WebsocketClient {
         this.send({ id, ...ctx.response });
       }
     });
-    return this.app;
+  }
+
+  on(event, cb) {
+    return this.app.on(event, cb);
+  }
+
+  off(event, cb) {
+    return this.app.off(event, cb);
+  }
+
+  emit(event, ...args) {
+    return this.app.emit(event, ...args);
   }
 
   send(message) {
