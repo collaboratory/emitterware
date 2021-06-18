@@ -51,7 +51,7 @@ export class Emitterware {
 
   emit(eventName, ...details) {
     const stack = this.emitters[eventName] || this.emitters["*"];
-    return stack(...details);
+    return stack ? stack(...details) : null;
   }
 
   promise(eventName, filter = false, timeout = 10000) {
